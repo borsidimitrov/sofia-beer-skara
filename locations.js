@@ -89,5 +89,30 @@ const VERIFIED_LOCATIONS = {
     "lat": 42.6899718,
     "lng": 23.3204063,
     "precision": "address"
+  },
+  "7": {
+    "lat": 42.6829918,
+    "lng": 23.3559959,
+    "precision": "address"
+  },
+  "22": {
+    "lat": 42.6731499,
+    "lng": 23.3110439,
+    "precision": "address"
+  },
+  "28": {
+    "lat": 42.698356,
+    "lng": 23.3425319,
+    "precision": "address"
+  },
+  "36": {
+    "lat": 42.668566,
+    "lng": 23.3189617,
+    "precision": "address"
+  },
+  "38": {
+    "lat": 42.6298462,
+    "lng": 23.3088,
+    "precision": "address"
   }
 };
