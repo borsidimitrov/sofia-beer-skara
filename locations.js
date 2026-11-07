@@ -44,5 +44,50 @@ const VERIFIED_LOCATIONS = {
     "lat": 42.6959028,
     "lng": 23.347275,
     "precision": "osm"
+  },
+  "1": {
+    "lat": 42.6796294,
+    "lng": 23.3243479,
+    "precision": "address"
+  },
+  "2": {
+    "lat": 42.6796294,
+    "lng": 23.3243479,
+    "precision": "address"
+  },
+  "10": {
+    "lat": 42.697709,
+    "lng": 23.3456737,
+    "precision": "address"
+  },
+  "11": {
+    "lat": 42.6975048,
+    "lng": 23.3291347,
+    "precision": "address"
+  },
+  "13": {
+    "lat": 42.6850771,
+    "lng": 23.3290799,
+    "precision": "address"
+  },
+  "16": {
+    "lat": 42.6846767,
+    "lng": 23.3223586,
+    "precision": "address"
+  },
+  "23": {
+    "lat": 42.6738093,
+    "lng": 23.3333089,
+    "precision": "address"
+  },
+  "27": {
+    "lat": 42.6924903,
+    "lng": 23.3297156,
+    "precision": "address"
+  },
+  "40": {
+    "lat": 42.6899718,
+    "lng": 23.3204063,
+    "precision": "address"
   }
 };
