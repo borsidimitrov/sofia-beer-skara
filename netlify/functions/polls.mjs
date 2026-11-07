@@ -23,14 +23,22 @@ export default async function handler(request) {
       const result={poll:{id,title:poll.title,options:poll.options,expires:poll.expires},votes:{},total:0};
       for(const o of poll.options)result.votes[o.id]=0;
       // Each visitor has their own blob, avoiding simultaneous-write collisions.
-      let cursor;
-      do {
-        const page=await s.list({prefix:`vote/${id}/`,paginate:true,cursor});
-        const items=page.blobs||[];
-        const values=await Promise.all(items.map(item=>s.get(item.key,{type:'json'})));
-        for(const v of values)if(v && Object.hasOwn(result.votes,v.optionId)) {result.votes[v.optionId]++;result.total++}
-        cursor=page.cursor;
-      }while(cursor);
+     
+const { blobs } = await s.list({
+  prefix: `vote/${id}/`
+});
+
+const values = await Promise.all(
+  blobs.map(item => s.get(item.key, { type: 'json' }))
+);
+
+for (const v of values) {
+  if (v && Object.hasOwn(result.votes, v.optionId)) {
+    result.votes[v.optionId]++;
+    result.total++;
+  }
+}
+
       return json(result);
     }
     if(request.method!=='POST')return fail('Method not allowed',405);
