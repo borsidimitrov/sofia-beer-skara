@@ -17,7 +17,15 @@ addresses={
 'Ale House Lozenets':'ул. Крум Попов 4, София','Aubergine – Craft Beer. Craft Food.':'ул. Карнеги 11, София',
 'Бирария Стамболовъ':'бул. Свети Наум 1, София','Halbite – Tri Ushi':'ул. Три уши 13, София',
 'Prague 18 Family Pub':'бул. Прага 18, София','Ale House Centre':'ул. Христо Белчев 42, София',
-'Избата / Izbata Tavern':'ул. Славянска 18, София','Kafana Stefanovich':'ул. Златовръх 4, София'}
+'Избата / Izbata Tavern':'ул. Славянска 18, София','Kafana Stefanovich':'ул. Златовръх 4, София',
+'Club 1857':'ул. Сан Стефано 22, София',
+'Talpa Beerhouse':'ул. Христо Чернопеев 5А, София',
+'Sporko – The Garden of Rock':'ул. Проф. Георги Павлов 1, София',
+'Ракета Ракия Бар':'бул. Янко Сакъзов 17, София',
+'Бирария При Водната Кула':'ул. Свети Теодосий Търновски 60, София',
+'Ресторант Стефанович':'бул. Черни връх 38А, София',
+'Сръбска скара Котилото':'ул. Крайречна 26, София',
+'Die Alte Lampe':'ул. Котел 2, София'}
 existing={}
 locfile=ROOT/'locations.js'
 if locfile.exists():
@@ -62,7 +70,8 @@ for i,(name,area) in enumerate(restaurants,1):
    # Street centroids are not accurate enough for this restaurant map.
    print('Address unresolved:',name,address)
  else:
-  for q in (name+', София, България',):
+  aliases={'Бирария При Водната Кула':'Kulata Pub','Бирария На Мегдана':'На Мегдана','Ресторант Стефанович':'Stefanovich restaurant'}
+  for q in (name+', София, България', aliases.get(name,name)+', София, България'):
    results=geocode(q)
    for r in results:
     typ=r.get('type','');category=r.get('category','');label=r.get('name') or r.get('display_name','').split(',')[0]
