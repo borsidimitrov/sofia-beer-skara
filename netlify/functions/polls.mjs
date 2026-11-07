@@ -3,7 +3,10 @@ import { randomUUID } from 'node:crypto';
 
 const json = (data, status=200) => new Response(JSON.stringify(data), {status,headers:{'content-type':'application/json; charset=utf-8','cache-control':'no-store','access-control-allow-origin':'*'}});
 const validId = x => typeof x==='string' && /^[a-f0-9-]{36}$/.test(x);
-const store = () => getStore('kudedasenasera-polls');
+const store = () => getStore({
+  name: 'kudedasenasera-polls',
+  consistency: 'strong'
+});
 const DAYS = 7*24*60*60*1000;
 const clean = s => String(s||'').trim().slice(0,100);
 const fail = (msg,code=400)=>json({error:msg},code);
