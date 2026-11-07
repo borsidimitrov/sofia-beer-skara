@@ -4,11 +4,18 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'Â
 const markers=L.layerGroup().addTo(map);let routeLine=null;let placing=null;map.setView([42.691,23.328],14);
 const escapeHTML=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const mapsLink=r=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent((ADDRESSES[r.name]||r.name+', '+r.area+', Sofia, Bulgaria'));
+// Published coordinates are the shared source of truth on every device.
+// Older local browser pins must not replace the latest GitHub locations.js.
 const cached=(()=>{try{return JSON.parse(localStorage.getItem('sofia-skara-places-v2')||'{}')}catch{return {}}})();
-for(const r of RESTAURANTS){if(cached[r.id]&&cached[r.id].precision==='manual'&&Number.isFinite(cached[r.id].lat)){Object.assign(r,cached[r.id]);}}
-// Optional coordinates committed to data.js are shared with every visitor.
-if(typeof VERIFIED_LOCATIONS!=='undefined')for(const r of RESTAURANTS){const v=VERIFIED_LOCATIONS[r.id];if(v&&Number.isFinite(v.lat)&&Number.isFinite(v.lng))Object.assign(r,v)}
-for(const r of RESTAURANTS){if(cached[r.id]?.precision==='manual'&&Number.isFinite(cached[r.id].lat))Object.assign(r,cached[r.id])}
+if(typeof VERIFIED_LOCATIONS!=='undefined')for(const r of RESTAURANTS){
+  const v=VERIFIED_LOCATIONS[r.id];
+  if(v&&Number.isFinite(v.lat)&&Number.isFinite(v.lng))Object.assign(r,v);
+}
+// Keep manual local pins only for restaurants that have no published coordinates.
+for(const r of RESTAURANTS){
+  const v=cached[r.id];
+  if(r.lat==null && v?.precision==='manual' && Number.isFinite(v.lat)&&Number.isFinite(v.lng))Object.assign(r,v);
+}
 // A link can carry location data for friends even before repository publication.
 try{const token=new URLSearchParams(location.search).get('pins');if(token){const payload=JSON.parse(decodeURIComponent(escape(atob(token.replace(/-/g,'+').replace(/_/g,'/')))));for(const r of RESTAURANTS){const v=payload[r.id];if(v&&Number.isFinite(v.lat)&&Number.isFinite(v.lng)&&v.lat>42.55&&v.lat<42.85&&v.lng>23.1&&v.lng<23.6)Object.assign(r,v)}}}catch(e){console.warn('Shared pins unavailable',e)}
 function save(){try{localStorage.setItem('sofia-skara-places-v2',JSON.stringify(Object.fromEntries(RESTAURANTS.filter(r=>r.lat!=null).map(r=>[r.id,{lat:r.lat,lng:r.lng,precision:r.precision}]))))}catch{}}
