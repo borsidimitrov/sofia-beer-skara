@@ -45,14 +45,22 @@ for i,(name,area) in enumerate(restaurants,1):
  address=addresses.get(name)
  found=None;precision=None
  if address:
+  # Search the address without the venue name. Nominatim is an address geocoder,
+  # and often does not know the commercial name even when the street exists.
   results=geocode(address+', България')
+  if not results:
+   results=geocode(address.replace('ул. ','').replace('бул. ','').replace('пл. ','')+', България')
   # Accept an actual street address, never the city or neighbourhood centroid.
   number=re.search(r'\d+',address)
   for r in results:
    ad=r.get('address',{});hn=str(ad.get('house_number',''))
    if number and hn and re.search(r'\d+',hn) and re.search(r'\d+',hn).group()==number.group():
     found=r;precision='address';break
-  if not found:print('Address unresolved:',name,address)
+  if not found:
+   # Some valid numbered addresses have no OSM house-number record.
+   # Try a street-only lookup but NEVER silently claim it is the entrance.
+   # Street centroids are not accurate enough for this restaurant map.
+   print('Address unresolved:',name,address)
  else:
   for q in (name+', София, България',):
    results=geocode(q)
