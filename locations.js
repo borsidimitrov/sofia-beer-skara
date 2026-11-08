@@ -1,4 +1,4 @@
-// Shared map pins. Some are approximate street-level indicators.
+// Restaurant map coordinates.
 const VERIFIED_LOCATIONS = {
   "1": {
     "lat": 42.6796294,
@@ -10,6 +10,11 @@ const VERIFIED_LOCATIONS = {
     "lng": 23.3243479,
     "precision": "address"
   },
+  "3": {
+    "lat": 42.67234500622,
+    "lng": 23.326034137665,
+    "precision": "address"
+  },
   "4": {
     "lat": 42.6964298,
     "lng": 23.3397127,
@@ -18,6 +23,11 @@ const VERIFIED_LOCATIONS = {
   "5": {
     "lat": 42.6922928,
     "lng": 23.3243842,
+    "precision": "address"
+  },
+  "6": {
+    "lat": 42.674785020144,
+    "lng": 23.363210895734,
     "precision": "address"
   },
   "7": {
@@ -45,9 +55,19 @@ const VERIFIED_LOCATIONS = {
     "lng": 23.3291347,
     "precision": "address"
   },
+  "12": {
+    "lat": 42.6852728,
+    "lng": 23.3254384,
+    "precision": "address"
+  },
   "13": {
     "lat": 42.6850771,
     "lng": 23.3290799,
+    "precision": "address"
+  },
+  "14": {
+    "lat": 42.694504,
+    "lng": 23.3175335,
     "precision": "address"
   },
   "15": {
@@ -60,9 +80,29 @@ const VERIFIED_LOCATIONS = {
     "lng": 23.3223586,
     "precision": "address"
   },
+  "17": {
+    "lat": 42.6878597,
+    "lng": 23.329404,
+    "precision": "address"
+  },
+  "18": {
+    "lat": 42.677771,
+    "lng": 23.3256725,
+    "precision": "address"
+  },
+  "19": {
+    "lat": 42.695585592974,
+    "lng": 23.316818989495,
+    "precision": "address"
+  },
   "20": {
     "lat": 42.6885312,
     "lng": 23.3122429,
+    "precision": "address"
+  },
+  "21": {
+    "lat": 42.688566,
+    "lng": 23.3147149,
     "precision": "address"
   },
   "22": {
@@ -100,9 +140,24 @@ const VERIFIED_LOCATIONS = {
     "lng": 23.3425319,
     "precision": "address"
   },
+  "33": {
+    "lat": 42.6446995,
+    "lng": 23.3411749,
+    "precision": "address"
+  },
+  "35": {
+    "lat": 42.6725046,
+    "lng": 23.3263064,
+    "precision": "address"
+  },
   "36": {
     "lat": 42.668566,
     "lng": 23.3189617,
+    "precision": "address"
+  },
+  "37": {
+    "lat": 42.6648809,
+    "lng": 23.3170228,
     "precision": "address"
   },
   "38": {
@@ -120,14 +175,54 @@ const VERIFIED_LOCATIONS = {
     "lng": 23.3204063,
     "precision": "address"
   },
+  "41": {
+    "lat": 42.667664,
+    "lng": 23.28059,
+    "precision": "address"
+  },
+  "42": {
+    "lat": 42.696755203743,
+    "lng": 23.315627501959,
+    "precision": "address"
+  },
   "43": {
-    "lat": 42.6736556,
-    "lng": 23.2758389,
+    "lat": 42.655890785463,
+    "lng": 23.465519986798,
+    "precision": "address"
+  },
+  "44": {
+    "lat": 42.682424621974,
+    "lng": 23.303071662459,
+    "precision": "address"
+  },
+  "45": {
+    "lat": 42.682163064686,
+    "lng": 23.334693649474,
+    "precision": "address"
+  },
+  "46": {
+    "lat": 42.693478298696,
+    "lng": 23.318506601881,
+    "precision": "address"
+  },
+  "47": {
+    "lat": 42.671426810637,
+    "lng": 23.325608001708,
+    "precision": "address"
+  },
+  "48": {
+    "lat": 42.679585503731,
+    "lng": 23.328830927298,
     "precision": "address"
   },
   "49": {
     "lat": 42.6934186,
     "lng": 23.3520036,
+    "precision": "address"
+  },
+  "50": {
+    "lat": 42.695593220506,
+    "lng": 23.321616623235,
     "precision": "address"
   },
   "51": {
