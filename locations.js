@@ -1,4 +1,4 @@
-// Published restaurant locations; address matches are approximate.
+// Shared map pins. Some are approximate street-level indicators.
 const VERIFIED_LOCATIONS = {
   "1": {
     "lat": 42.6796294,
@@ -8,6 +8,11 @@ const VERIFIED_LOCATIONS = {
   "2": {
     "lat": 42.6796294,
     "lng": 23.3243479,
+    "precision": "address"
+  },
+  "4": {
+    "lat": 42.6964298,
+    "lng": 23.3397127,
     "precision": "address"
   },
   "5": {
@@ -113,6 +118,16 @@ const VERIFIED_LOCATIONS = {
   "40": {
     "lat": 42.6899718,
     "lng": 23.3204063,
+    "precision": "address"
+  },
+  "43": {
+    "lat": 42.6736556,
+    "lng": 23.2758389,
+    "precision": "address"
+  },
+  "49": {
+    "lat": 42.6934186,
+    "lng": 23.3520036,
     "precision": "address"
   },
   "51": {
