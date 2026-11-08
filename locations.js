@@ -140,14 +140,19 @@ const VERIFIED_LOCATIONS = {
     "lng": 23.3425319,
     "precision": "address"
   },
+  "29": {
+    "lat": 42.689640099504,
+    "lng": 23.342143485016,
+    "precision": "address"
+  },
   "33": {
-    "lat": 42.6446995,
-    "lng": 23.3411749,
+    "lat": 42.701935890458,
+    "lng": 23.307568469694,
     "precision": "address"
   },
   "35": {
-    "lat": 42.6725046,
-    "lng": 23.3263064,
+    "lat": 42.707941901268,
+    "lng": 23.303908176396,
     "precision": "address"
   },
   "36": {
@@ -156,8 +161,8 @@ const VERIFIED_LOCATIONS = {
     "precision": "address"
   },
   "37": {
-    "lat": 42.6648809,
-    "lng": 23.3170228,
+    "lat": 42.656311598912,
+    "lng": 23.386942997289,
     "precision": "address"
   },
   "38": {
@@ -176,8 +181,8 @@ const VERIFIED_LOCATIONS = {
     "precision": "address"
   },
   "41": {
-    "lat": 42.667664,
-    "lng": 23.28059,
+    "lat": 42.693596693079,
+    "lng": 23.329286735193,
     "precision": "address"
   },
   "42": {
@@ -186,8 +191,8 @@ const VERIFIED_LOCATIONS = {
     "precision": "address"
   },
   "43": {
-    "lat": 42.655890785463,
-    "lng": 23.465519986798,
+    "lat": 42.685441338315,
+    "lng": 23.298955754368,
     "precision": "address"
   },
   "44": {
