@@ -1,14 +1,50 @@
-// Existing IDs 1–40 are preserved to keep map pins and shared group polls compatible.
+// Restaurant IDs are stable so existing group polls continue to resolve correctly.
 const RESTAURANTS = [
-['Бирария Атила','Lozenets','Beerhouse'],['Balkan Grill Arkadia','Lozenets','Serbian'],['Бирария При Водната Кула','Lozenets','Beerhouse'],['Club 1857','Centre','Beerhouse'],['Luciano / Бирария Лучано','Centre','Beerhouse'],['Talpa Beerhouse','Geo Milev','Beerhouse'],['Sporko – The Garden of Rock','Geo Milev','Beerhouse'],['Stochna Kitchen Brewery','Orlandovtsi','Beerhouse'],['Dondukov Brewery','Centre','Beerhouse'],['SkaraBar 1','Zaimov','Grill'],['SkaraBar 2','Centre','Grill'],['The Thirsty Dragon Inn','Centre','Beerhouse'],['Ale House Lozenets','Lozenets','Beerhouse'],['The Three-Legged Chicken','Centre','Beerhouse'],["Tom's Place",'Centre','Beerhouse'],['Aubergine – Craft Beer. Craft Food.','Centre','Beerhouse'],['Бирария На Мегдана','Sofia','Beerhouse'],['Бирария Стамболовъ','Lozenets','Beerhouse'],['Halbite – Tri Ushi','Centre','Beerhouse'],['Prague 18 Family Pub','Centre','Beerhouse'],['Pub 5 Corners','Centre','Beerhouse'],['Die Alte Lampe','Lozenets','Beerhouse'],['Kafana Stefanovich','Lozenets','Serbian'],['Под Липите','Lozenets','Bulgarian'],['Хаджидрагановите изби','Centre','Bulgarian'],['Манастирска магерница','Centre','Bulgarian'],['Избата / Izbata Tavern','Centre','Bulgarian'],['Ракета Ракия Бар','Oborishte','Bulgarian'],['Царевеца','Centre','Bulgarian'],['Механа 681','Lozenets','Bulgarian'],['Balkan Express Serbian Cuisine','Centre','Serbian'],['Винарна Брани','Centre','Serbian'],['Скара при Гелето','Centre','Grill'],['Maraia Classic','Lozenets','Grill'],['Бирария При Миле','Sofia','Beerhouse'],['Ресторант Стефанович','Sofia','Serbian'],['Сръбски ресторант При Братовчеда','Sofia','Serbian'],['Сръбска скара Котилото','Sofia','Serbian'],['Kanaal','Centre','Beerhouse'],['Ale House Centre','Centre','Beerhouse'],['The GOAT Sports Bar','Centre','Beerhouse']
-].map(([name,area,type],i)=>({id:i+1,name,area,type,verified:false,rating:null,lat:null,lng:null,tags:[]}));
-// Category assignments are intentionally explicit; unknown venues are not assumed to qualify.
-const CATEGORY_TAGS = {
-  'The GOAT Sports Bar':['football','music'],
-  'Club 1857':['football','music'],
-  'Хаджидрагановите изби':['music']
-};
-for(const r of RESTAURANTS)r.tags=CATEGORY_TAGS[r.name]||[];
+[1,'Бирария Атила','Lozenets','Beerhouse',['basic','football']],
+[2,'Balkan Grill Arkadia','Lozenets','Serbian',['basic']],
+[3,'Бирария При Водната Кула','Lozenets','Beerhouse',['basic']],
+[4,'Club 1857','Centre','Beerhouse',[]],
+[5,'Luciano / Бирария Лучано','Centre','Beerhouse',['basic','football']],
+[6,'Talpa Beerhouse','Geo Milev','Beerhouse',['basic']],
+[8,'Stochna Kitchen Brewery','Orlandovtsi','Beerhouse',['basic','upscale']],
+[9,'Dondukov Brewery','Centre','Beerhouse',['basic']],
+[10,'SkaraBar 1','Zaimov','Grill',['basic']],
+[11,'SkaraBar 2','Centre','Grill',['basic']],
+[12,'The Thirsty Dragon Inn','Centre','Beerhouse',['basic']],
+[13,'Ale House Lozenets','Lozenets','Beerhouse',['basic']],
+[14,'The Three-Legged Chicken','Centre','Beerhouse',['basic']],
+[16,'Aubergine – Craft Beer. Craft Food.','Centre','Beerhouse',['upscale']],
+[17,'Бирария На Мегдана','Sofia','Beerhouse',['basic']],
+[18,'Бирария Стамболовъ','Lozenets','Beerhouse',['basic']],
+[19,'Halbite – Tri Ushi','Centre','Beerhouse',['basic']],
+[20,'Prague 18 Family Pub','Centre','Beerhouse',['basic']],
+[21,'Pub 5 Corners','Centre','Beerhouse',['basic']],
+[22,'Die Alte Lampe','Lozenets','Beerhouse',['basic']],
+[23,'Kafana Stefanovich','Lozenets','Serbian',['basic']],
+[24,'Под Липите','Lozenets','Bulgarian',['upscale']],
+[25,'Хаджидрагановите изби','Centre','Bulgarian',['upscale']],
+[26,'Манастирска магерница','Centre','Bulgarian',['basic']],
+[28,'Ракета Ракия Бар','Oborishte','Bulgarian',['upscale']],
+[29,'Царевеца','Centre','Bulgarian',['basic']],
+[33,'Скара при Гелето','Centre','Grill',['basic']],
+[35,'Бирария При Миле','Sofia','Beerhouse',['basic']],
+[36,'Ресторант Стефанович','Sofia','Serbian',['basic']],
+[37,'Сръбски ресторант При Братовчеда','Sofia','Serbian',['music']],
+[38,'Сръбска скара Котилото','Sofia','Serbian',['basic']],
+[39,'Kanaal','Centre','Beerhouse',['upscale']],
+[40,'Ale House Centre','Centre','Beerhouse',['basic']],
+[41,'The GOAT Sports Bar','Sofia','Beerhouse',['basic','football']],
+[42,'Traditional Mehana Mamin Kolio','Centre','Bulgarian',['basic','music']],
+[43,'Механа Мамин Кольо 2','Centre','Bulgarian',['basic','music']],
+[44,'Наше село','Centre','Bulgarian',['music']],
+[45,'Махленци','Lozenets','Bulgarian',['upscale']],
+[46,"JJ Murphy's",'Centre','Beerhouse',['football']],
+[47,'Летящият холандец','Lozenets','Beerhouse',['basic']],
+[48,'The Old Dutchman / Стария холандец','Lozenets','Beerhouse',['basic']],
+[49,'Коловоз 41','Oborishte','Bulgarian',['upscale']],
+[50,'Grumpy Dwarf','Centre','Beerhouse',['football']],
+[51,'YUGO by Džaferović','Centre','Serbian',['basic']]
+].map(([id,name,area,type,features])=>({id,name,area,type,features,verified:false,rating:null,football:features.includes('football'),lat:null,lng:null}));
 const ADDRESSES = {
 'Бирария Атила':'ул. Крум Попов 64, София',
 'Balkan Grill Arkadia':'ул. Крум Попов 64, София',
@@ -16,7 +52,7 @@ const ADDRESSES = {
 'Club 1857':'ул. Сан Стефано 22, София',
 'Luciano / Бирария Лучано':'пл. Петко Р. Славейков 9, София',
 'Talpa Beerhouse':'ул. Христо Чернопеев 5А, София',
-'Sporko – The Garden of Rock':'ул. Проф. Георги Павлов 1, София',
+'Stochna Kitchen Brewery':'ул. Индустриална 7, София',
 'Dondukov Brewery':'бул. Княз Александър Дондуков 14, София',
 'SkaraBar 1':'ул. Димитър Греков 2, София',
 'SkaraBar 2':'ул. Георги Бенковски 12, София',
@@ -26,11 +62,18 @@ const ADDRESSES = {
 'Halbite – Tri Ushi':'ул. Три уши 13, София',
 'Prague 18 Family Pub':'бул. Прага 18, София',
 'Ale House Centre':'ул. Христо Белчев 42, София',
-'Избата / Izbata Tavern':'ул. Славянска 18, София',
 'Kafana Stefanovich':'ул. Златовръх 4, София',
-'Die Alte Lampe':'ул. Котел 2, София',
 'Ракета Ракия Бар':'бул. Янко Сакъзов 17, София',
 'Ресторант Стефанович':'бул. Черни връх 38А, София',
 'Сръбска скара Котилото':'ул. Крайречна 26, София',
-'The GOAT Sports Bar':'ул. 6-ти септември 4, София'
+'Traditional Mehana Mamin Kolio':'ул. Позитано 40, София',
+'Механа Мамин Кольо 2':'бул. Цар Борис III 24, София',
+'Наше село':'бул. Академик Иван Евстратиев Гешов 15, София',
+'Махленци':'ул. Цанко Церковски 5, София',
+"JJ Murphy's":'ул. Кърниградска 6, София',
+'Летящият холандец':'ул. Бигла 25, София',
+'The Old Dutchman / Стария холандец':'ул. Миджур 23, София',
+'Коловоз 41':'ул. Черковна 41, София',
+'Grumpy Dwarf':'ул. Позитано 3, София',
+'YUGO by Džaferović':'бул. Княз Александър Дондуков 27, София'
 };
