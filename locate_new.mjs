@@ -2,138 +2,160 @@
 import fs from 'node:fs';
 import vm from 'node:vm';
 
-const context = vm.createContext({});
+const ctx = vm.createContext({});
+
 vm.runInContext(
   fs.readFileSync('data.js', 'utf8') +
-  '\n;globalThis.__places=RESTAURANTS;globalThis.__addresses=ADDRESSES;',
-  context
+  '\n;globalThis.places=RESTAURANTS;globalThis.addresses=ADDRESSES;',
+  ctx
 );
+
 vm.runInContext(
   fs.readFileSync('locations.js', 'utf8') +
-  '\n;globalThis.__pins=VERIFIED_LOCATIONS;',
-  context
+  '\n;globalThis.pins=VERIFIED_LOCATIONS;',
+  ctx
 );
 
-const places = context.__places;
-const addresses = context.__addresses;
-const pins = JSON.parse(JSON.stringify(context.__pins));
+const places = ctx.places;
+const addresses = ctx.addresses;
+const pins = JSON.parse(JSON.stringify(ctx.pins));
 
-const normalize = value => String(value || '')
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+const clean = s => String(s || '')
   .toLocaleLowerCase('bg')
-  .replace(/[\u0300-\u036f]/g, '')
-  .replace(/[„“"'.,()]/g, ' ')
-  .replace(/\b(улица|ул|булевард|бул|площад|пл)\b/g, ' ')
-  .replace(/\s+/g, ' ')
+  .replace(/[^\p{L}\p{N}]+/gu, ' ')
   .trim();
 
-const number = value =>
-  (String(value || '').match(/\d+\s*[а-яa-z]?/i) || [''])[0]
-    .replace(/\s+/g, '')
-    .toLowerCase();
+const street = address => String(address)
+  .split(',')[0]
+  .replace(/\b\d+\s*[А-Яа-яA-Za-z]?\b/g, '')
+  .trim();
 
-const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
+const inSofia = p =>
+  Number(p.lat) > 42.58 &&
+  Number(p.lat) < 42.77 &&
+  Number(p.lon) > 23.19 &&
+  Number(p.lon) < 23.49;
 
 async function search(query) {
-  const url = 'https://nominatim.openstreetmap.org/search?' +
+  const url =
+    'https://nominatim.openstreetmap.org/search?' +
     new URLSearchParams({
       format: 'jsonv2',
       addressdetails: '1',
       limit: '10',
       countrycodes: 'bg',
-      q: query
+      q: query,
+      viewbox: '23.19,42.77,23.49,42.58',
+      bounded: '1'
     });
 
-  const response = await fetch(url, {
+  const res = await fetch(url, {
     headers: {
-      'User-Agent': 'SofiaBeerSkara/1.0 (community restaurant map)',
+      'User-Agent': 'SofiaBeerSkara/1.0 (public hobby map)',
       'Accept-Language': 'bg,en'
     }
   });
 
-  if (!response.ok) throw Error('HTTP ' + response.status);
-  return response.json();
-}
+  if (!res.ok) {
+    throw new Error('HTTP ' + res.status);
+  }
 
-function acceptable(candidate, address) {
-  const lat = Number(candidate.lat);
-  const lng = Number(candidate.lon);
-  const details = candidate.address || {};
-
-  if (!(lat > 42.55 && lat < 42.85 &&
-        lng > 23.1 && lng < 23.6)) return false;
-
-  const requestedNumber = number(address);
-  const returnedNumber = number(details.house_number);
-
-  if (!requestedNumber || requestedNumber !== returnedNumber) return false;
-
-  const road = normalize(
-    details.road || details.pedestrian ||
-    details.residential || details.street || ''
-  );
-
-  const requestedStreet = normalize(address.split(',')[0])
-    .replace(/\d+\s*[а-яa-z]?/gi, '')
-    .trim();
-
-  if (!road || !requestedStreet) return false;
-
-  const roadWords = road.split(' ').filter(x => x.length >= 3);
-  const requestedWords = requestedStreet.split(' ');
-
-  return roadWords.length > 0 &&
-    roadWords.every(word => requestedWords.includes(word));
+  return res.json();
 }
 
 let added = 0;
 
-for (const restaurant of places) {
-  if (pins[restaurant.id]) continue;
+for (const r of places) {
+  if (pins[r.id]) continue;
 
-  const address = addresses[restaurant.name];
+  const address = addresses[r.name];
+
   if (!address) {
-    console.log('NO ADDRESS', restaurant.id, restaurant.name);
+    console.log('NO ADDRESS', r.id, r.name);
     continue;
   }
 
-  const variants = [
+  const road = street(address);
+
+  const queries = [
     address,
-    address.replace(/,\s*София.*$/i, '') + ', Sofia, Bulgaria',
-    address.replace(/,\s*София.*$/i, '') + ', България'
+    road + ', София, България'
   ];
 
-  let match = null;
+  let found = null;
 
-  for (const query of [...new Set(variants)]) {
+  for (const query of queries) {
     try {
-      const candidates = await search(query);
-      match = candidates.find(c => acceptable(c, address));
+      const results = await search(query);
 
-      if (match) break;
-    } catch (error) {
-      console.log('LOOKUP ERROR', restaurant.name, error.message);
+      // Accept a location on the correct street,
+      // even when the exact building number is unavailable.
+      const roadWords = clean(road)
+        .split(' ')
+        .filter(w =>
+          w.length > 2 &&
+          !['улица', 'булевард', 'площад'].includes(w)
+        );
+
+      found = results.find(p => {
+        if (!inSofia(p)) return false;
+
+        const named = clean([
+          p.address?.road,
+          p.address?.pedestrian,
+          p.address?.residential,
+          p.display_name
+        ].filter(Boolean).join(' '));
+
+        return roadWords.length > 0 &&
+          roadWords.every(w => named.includes(w));
+      });
+
+      if (found) break;
+
+    } catch (e) {
+      console.log('LOOKUP ERROR', r.name, e.message);
     }
 
-    await pause(1200);
+    await sleep(1200);
   }
 
-  if (match) {
-    pins[restaurant.id] = {
-      lat: Number(match.lat),
-      lng: Number(match.lon),
+  if (found) {
+    pins[r.id] = {
+      lat: Number(found.lat),
+      lng: Number(found.lon),
       precision: 'address'
     };
+
     added++;
-    console.log('MATCH', restaurant.id, restaurant.name, match.display_name);
+
+    console.log(
+      'PIN',
+      r.id,
+      r.name,
+      found.display_name
+    );
+
   } else {
-    console.log('UNRESOLVED', restaurant.id, restaurant.name, address);
+    console.log(
+      'UNRESOLVED',
+      r.id,
+      r.name,
+      address
+    );
   }
+
+  await sleep(1200);
 }
 
 fs.writeFileSync(
   'locations.js',
-  '// Published restaurant locations; address matches are approximate.\n' +
-  'const VERIFIED_LOCATIONS = ' + JSON.stringify(pins, null, 2) + ';\n'
+  '// Shared map pins. Some are approximate street-level indicators.\n' +
+  'const VERIFIED_LOCATIONS = ' +
+  JSON.stringify(pins, null, 2) +
+  ';\n'
 );
 
 console.log(
